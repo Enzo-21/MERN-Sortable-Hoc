@@ -13,7 +13,7 @@ const SortableItem = SortableElement(({ title, description, _id }) => {
       
   <h1>{title}</h1>
       <p>{description}</p>
-  <p>{_id}</p>
+{/*   <p>{_id}</p> */}
     </li>
   )
 })
@@ -52,23 +52,22 @@ const SortableTasks = () => {
     const taskIds = tasksCopy.map(task => task._id)
 
 
-    const res = await axios({
+    await axios({
       method: 'put',
       url: `${BASE_URL}tasks`,
       data: taskIds
     });
 
-    const data = await res
-
-    console.log(data);
-    
-    console.log(taskIds);
+   
 
   }
 
-  return (
+  return (tasks) ? (
     <SortableList items={tasks} onSortEnd={onSortEnd} />
+  ) : (
+    <p>Loading...</p>
   )
+
 }
 
 
@@ -81,7 +80,8 @@ const App = () => {
      <div className="container">
        <div className="jumbotron text-center mt-4 p-2">
        <h4>How it works... 🤔</h4>
-     <p>You can drag the elements to sort them as you like, they will be automatically updated on the database 😄</p>
+     <p>You can drag the elements to sort them as you like, they will be automatically updated on the database</p>
+     <small>(Backend is served on a free Heroku tier so elements may take a while to load, be patient 😅)</small>
        </div>
   
       <div className="row">
@@ -90,6 +90,7 @@ const App = () => {
         </div>
 
       </div>
+    
     </div>
     </>
    
